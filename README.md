@@ -8,7 +8,7 @@ A continuación se especifican los datos técnicos relevantes bajo los que se de
 
    **IDE Utilizado: Visual Studio Code (recomendado para abrir la carpeta raíz y gestionar ambos entornos). También se puede utilizar IntelliJ IDEA para el backend de manera independiente.
    **Versiones de Lenguajes y Frameworks:**
-    *   **Frontend:** TypeScript con Angular (CLI/Core versión 20.11.1 según la configuración local de este entorno).
+    *   **Frontend:** TypeScript con Angular (CLI/Core versión 20.11.1 configuración local de mi entorno).
     *   **Backend:** Java 21, estructurado sobre el framework Spring Boot (versión 3.5.5).
 *   **DBMS Utilizado y Versión:** 
     *   Motor de base de datos: MySQL versión 8.4.7.
