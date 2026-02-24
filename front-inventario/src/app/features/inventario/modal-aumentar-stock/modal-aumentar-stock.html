@@ -1,0 +1,78 @@
+<div class="modal-overlay" (click)="closeModal()">
+    <div class="modal-container" (click)="$event.stopPropagation()">
+
+        <div class="modal-header">
+            <div class="modal-title">
+                <div class="icon-wrapper">
+                    <span class="material-symbols-outlined">add_shopping_cart</span>
+                </div>
+                <h2>Aumentar Stock de Producto</h2>
+            </div>
+            <button class="close-btn" (click)="closeModal()" type="button" aria-label="Cerrar modal">
+                <span class="material-symbols-outlined">close</span>
+            </button>
+        </div>
+
+        <div class="modal-body">
+            @if (errorMensaje) {
+            <div class="alert-error">
+                <span class="material-symbols-outlined">error</span>
+                {{ errorMensaje }}
+            </div>
+            }
+
+            <div class="product-read-only-details">
+                <div class="detail-row">
+                    <span class="detail-label">ID / SKU:</span>
+                    <span class="detail-value">{{ item.sku }} ({{ item.id }})</span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label">Nombre:</span>
+                    <span class="detail-value">{{ item.nombre }}</span>
+                </div>
+                <div class="detail-row description">
+                    <span class="detail-label">Descripción / Categoría:</span>
+                    <span class="detail-value">{{ item.categoria }}</span>
+                </div>
+                <div class="detail-row highlight">
+                    <span class="detail-label">Stock Actual:</span>
+                    <span class="detail-value current-stock">{{ item.stock }}</span>
+                </div>
+            </div>
+
+            <form [formGroup]="stockForm" (ngSubmit)="onSubmit()">
+                <div class="form-group">
+                    <label for="stockARestarOAumentar">Cantidad a Aumentar</label>
+                    <div class="input-wrapper">
+                        <span class="material-symbols-outlined input-icon">add_circle</span>
+                        <input type="number" id="stockARestarOAumentar" formControlName="stockARestarOAumentar" min="1"
+                            step="1"
+                            [class.error]="stockForm.get('stockARestarOAumentar')?.invalid && stockForm.get('stockARestarOAumentar')?.touched">
+                    </div>
+                    @if (stockForm.get('stockARestarOAumentar')?.invalid &&
+                    stockForm.get('stockARestarOAumentar')?.touched) {
+                    <span class="error-msg">Debe ingresar una cantidad mayor a 0 para aumentar.</span>
+                    }
+                </div>
+
+                <div class="preview-stock">
+                    Stock Resultante: <strong>{{ nuevoStockCalculado }}</strong>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn-secondary" (click)="closeModal()"
+                        [disabled]="isSubmitting">Cancelar</button>
+                    <button type="submit" class="btn-primary" [disabled]="isSubmitting || stockForm.invalid">
+                        @if (isSubmitting) {
+                        <span class="loader"></span>
+                        Procesando...
+                        } @else {
+                        <span class="material-symbols-outlined">inventory_2</span>
+                        Actualizar Stock
+                        }
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

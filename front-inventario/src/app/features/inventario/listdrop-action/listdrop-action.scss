@@ -1,0 +1,111 @@
+$surface: #ffffff;
+$primary-pink: #e61a1a;
+$primary-pink-light: #fff0f2;
+$text-main: #2b2d42;
+$text-muted: #8d99ae;
+$border-color: #edf2f4;
+$error: #ef233c;
+$success: #2ecc71;
+$success-light: #e8f8f5;
+
+.dropdown-wrapper {
+    position: relative;
+    display: inline-block;
+}
+
+.action-btn {
+    background: transparent;
+    border: none;
+    color: $text-muted;
+    cursor: pointer;
+    padding: 6px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: all 0.2s;
+
+    &:hover,
+    &.active {
+        background: $primary-pink-light;
+        color: $primary-pink;
+    }
+}
+
+.dropdown-menu {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    margin-top: 8px;
+    background: $surface;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    border: 1px solid $border-color;
+    min-width: 180px;
+    z-index: 100;
+    overflow: hidden;
+    animation: scaleFadeIn 0.2s cubic-bezier(0.175, 0.885, 0.32, 1);
+    transform-origin: top right;
+    display: flex;
+    flex-direction: column;
+
+    .menu-item {
+        background: transparent;
+        border: none;
+        width: 100%;
+        padding: 12px 16px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        cursor: pointer;
+        font-size: 0.9rem;
+        font-weight: 500;
+        color: $text-main;
+        transition: background 0.2s;
+
+        &:hover {
+            background: #f8f9fa;
+        }
+
+        .icon-wrapper {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: $text-muted;
+
+            span {
+                font-size: 20px;
+            }
+        }
+
+        &.disable-action:hover {
+            background: $primary-pink-light;
+            color: $error;
+
+            .icon-wrapper {
+                color: $error;
+            }
+        }
+
+        &.enable-action:hover {
+            background: $success-light;
+            color: $success;
+
+            .icon-wrapper {
+                color: $success;
+            }
+        }
+    }
+}
+
+@keyframes scaleFadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}

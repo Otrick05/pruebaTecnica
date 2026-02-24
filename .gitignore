@@ -1,0 +1,82 @@
+# =========================
+# Angular (Frontend) Ignores
+# =========================
+
+# Dependencies
+/front-inventario/node_modules/
+/front-inventario/dist/
+/front-inventario/.angular/
+
+# Logs
+/front-inventario/logs/
+/front-inventario/*.log
+/front-inventario/npm-debug.log*
+/front-inventario/yarn-debug.log*
+/front-inventario/yarn-error.log*
+
+# OS and IDE
+/front-inventario/.idea/
+/front-inventario/.vscode/
+/front-inventario/.DS_Store
+
+# Environments (If you have environment variables that shouldn't be public)
+# /front-inventario/src/environments/environment.ts
+# /front-inventario/src/environments/environment.prod.ts
+
+# =========================
+# Spring Boot (Backend) Ignores
+# =========================
+
+# Compiled class file
+/back-inventario/**/*.class
+
+# Log file
+/back-inventario/**/*.log
+
+# BlueJ files
+/back-inventario/**/*.ctxt
+
+# Mobile Tools for Java (J2ME)
+/back-inventario/**/.mtj.tmp/
+
+# Package Files #
+/back-inventario/**/*.jar
+/back-inventario/**/*.war
+/back-inventario/**/*.nar
+/back-inventario/**/*.ear
+/back-inventario/**/*.zip
+/back-inventario/**/*.tar.gz
+/back-inventario/**/*.rar
+
+# virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
+/back-inventario/**/hs_err_pid*
+/back-inventario/**/replay_pid*
+
+# Maven
+/back-inventario/cadenasuministros/target/
+/back-inventario/cadenasuministros/pom.xml.tag
+/back-inventario/cadenasuministros/pom.xml.releaseBackup
+/back-inventario/cadenasuministros/pom.xml.versionsBackup
+/back-inventario/cadenasuministros/pom.xml.next
+/back-inventario/cadenasuministros/release.properties
+/back-inventario/cadenasuministros/dependency-reduced-pom.xml
+/back-inventario/cadenasuministros/buildNumber.properties
+/back-inventario/cadenasuministros/.mvn/timing.properties
+# https://github.com/takari/maven-wrapper#usage-without-binary-jar
+/back-inventario/cadenasuministros/.mvn/wrapper/maven-wrapper.jar
+
+# IDE specific files
+/back-inventario/**/*.idea/
+/back-inventario/**/*.vscode/
+/back-inventario/**/*.settings/
+/back-inventario/**/*.project
+/back-inventario/**/*.classpath
+
+# =========================
+# General OS / Global ignores
+# =========================
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.swp

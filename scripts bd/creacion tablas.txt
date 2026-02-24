@@ -1,0 +1,69 @@
+CREATE TABLE rol (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    nombre VARCHAR(255) NOT NULL UNIQUE
+);
+
+CREATE TABLE permiso (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    nombre VARCHAR(255) NOT NULL UNIQUE
+);
+
+CREATE TABLE producto (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    categoria VARCHAR(255),
+    nombre VARCHAR(255),
+    descripcion VARCHAR(255),
+    precio DOUBLE NOT NULL,
+    stock INT DEFAULT 0,
+    habilitado BIT(1) NOT NULL DEFAULT 1
+);
+
+CREATE TABLE token_blacklist (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    jti VARCHAR(255) NOT NULL UNIQUE,
+    expiry_date DATETIME(6) NOT NULL
+);
+
+
+
+CREATE TABLE rol_permisos (
+    rol_id BIGINT NOT NULL,
+    permiso_id BIGINT NOT NULL,
+    PRIMARY KEY (permiso_id, rol_id),
+    FOREIGN KEY (rol_id) REFERENCES rol(id),
+    FOREIGN KEY (permiso_id) REFERENCES permiso(id)
+);
+
+CREATE TABLE usuario (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    nombre_usuario VARCHAR(255),
+    correo VARCHAR(255) NOT NULL UNIQUE,
+    password VARCHAR(255) NOT NULL,
+    rol_id BIGINT NOT NULL,
+    
+    -- Banderas de Spring Security
+    enabled BIT(1) NOT NULL DEFAULT 1,
+    account_non_expired BIT(1) NOT NULL DEFAULT 1,
+    account_non_locked BIT(1) NOT NULL DEFAULT 1,
+    credentials_non_expired BIT(1) NOT NULL DEFAULT 1,
+    failed_login_attempts INT DEFAULT 0,
+    
+    -- Auditoría
+    created_at DATETIME(6),
+    updated_at DATETIME(6),
+    last_login DATETIME(6),
+    
+    FOREIGN KEY (rol_id) REFERENCES rol(id)
+);
+
+CREATE TABLE historial_productos (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    fecha DATETIME(6) NOT NULL,
+    producto_id BIGINT NOT NULL,
+    tipo TINYINT NOT NULL CHECK (tipo BETWEEN 0 AND 3),
+    usuario VARBINARY(255) NOT NULL,
+    motivo VARCHAR(255),
+    destino VARCHAR(255),
+    usuario_id BIGINT NOT NULL,
+    FOREIGN KEY (usuario_id) REFERENCES usuario(id)
+);

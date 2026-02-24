@@ -1,0 +1,98 @@
+<div class="modal-overlay" (click)="closeModal()">
+    <div class="modal-container" (click)="$event.stopPropagation()">
+
+        <div class="modal-header">
+            <div class="modal-title">
+                <div class="icon-wrapper">
+                    <span class="material-symbols-outlined">add_circle</span>
+                </div>
+                <h2>Agregar Nuevo Producto</h2>
+            </div>
+            <button class="close-btn" (click)="closeModal()" type="button" aria-label="Cerrar modal">
+                <span class="material-symbols-outlined">close</span>
+            </button>
+        </div>
+
+        <div class="modal-body">
+            <p class="subtitle">Complete los detalles para agregar un producto al inventario.</p>
+
+            <form [formGroup]="productForm" (ngSubmit)="onSubmit()">
+                <div class="form-group">
+                    <label for="nombre">Nombre del Producto</label>
+                    <div class="input-wrapper">
+                        <span class="material-symbols-outlined input-icon">inventory_2</span>
+                        <input type="text" id="nombre" formControlName="nombre" placeholder="Ej. Taladro Industrial"
+                            [class.error]="productForm.get('nombre')?.invalid && productForm.get('nombre')?.touched">
+                    </div>
+                    @if (productForm.get('nombre')?.invalid && productForm.get('nombre')?.touched) {
+                    <span class="error-msg">El nombre es requerido (mín. 3 caracteres).</span>
+                    }
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group half">
+                        <label for="categoria">Categoría</label>
+                        <div class="input-wrapper">
+                            <span class="material-symbols-outlined input-icon">category</span>
+                            <select id="categoria" formControlName="categoria"
+                                [class.error]="productForm.get('categoria')?.invalid && productForm.get('categoria')?.touched">
+                                <option value="" disabled selected>Selecciona una...</option>
+                                <option value="Electricos">Electricos</option>
+                                <option value="Hardware">Hardware</option>
+                                <option value="Maquinaria">Maquinaria</option>
+                                <option value="Herramientas">Herramientas</option>
+                                <option value="Muebles">Muebles</option>
+                                <option value="Otros">Otros</option>
+                            </select>
+                        </div>
+                        @if (productForm.get('categoria')?.invalid && productForm.get('categoria')?.touched) {
+                        <span class="error-msg">Seleccione una categoría.</span>
+                        }
+                    </div>
+
+                    <div class="form-group half">
+                        <label for="precio">Precio Unitario ($)</label>
+                        <div class="input-wrapper">
+                            <span class="material-symbols-outlined input-icon">attach_money</span>
+                            <input type="number" id="precio" formControlName="precio" min="0" step="0.01"
+                                placeholder="0.00"
+                                [class.error]="productForm.get('precio')?.invalid && productForm.get('precio')?.touched">
+                        </div>
+                        @if (productForm.get('precio')?.invalid && productForm.get('precio')?.touched) {
+                        <span class="error-msg">El precio debe ser un número válido mayor o igual a 0.</span>
+                        }
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="descripcion">Descripción</label>
+                    <div class="input-wrapper text-area-wrapper">
+                        <textarea id="descripcion" formControlName="descripcion" rows="4"
+                            placeholder="Breve descripción del producto..."
+                            [class.error]="productForm.get('descripcion')?.invalid && productForm.get('descripcion')?.touched"></textarea>
+                    </div>
+                    <div class="char-counter">
+                        {{ productForm.get('descripcion')?.value?.length || 0 }}/200
+                    </div>
+                    @if (productForm.get('descripcion')?.invalid && productForm.get('descripcion')?.touched) {
+                    <span class="error-msg">La descripción es requerida (máx. 200 caracteres).</span>
+                    }
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn-secondary" (click)="closeModal()"
+                        [disabled]="isSubmitting">Cancelar</button>
+                    <button type="submit" class="btn-primary" [disabled]="isSubmitting">
+                        @if (isSubmitting) {
+                        <span class="loader"></span>
+                        Guardando...
+                        } @else {
+                        <span class="material-symbols-outlined">save</span>
+                        Guardar Producto
+                        }
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

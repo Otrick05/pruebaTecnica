@@ -1,0 +1,56 @@
+<aside class="sidebar">
+    <div class="sidebar__content">
+        <div class="sidebar__top">
+            <div class="sidebar__brand">
+                <div class="sidebar__brand-logo">
+                    <img alt="Company Logo" data-alt="Abstract geometric logo in blue and grey" src="castores.png" />
+                </div>
+                <div class="sidebar__brand-info">
+                    <h1>Almacén</h1>
+                    <p>Panel de Control</p>
+                </div>
+            </div>
+            <nav class="sidebar__nav">
+                <a class="sidebar__link" routerLink="/inventario" routerLinkActive="sidebar__link--active">
+                    <span class="material-symbols-outlined fill-1">inventory_2</span>
+                    <span class="text">Inventario</span>
+                </a>
+                @if (currentUser()?.rol !== 'ADMIN') {
+                <a class="sidebar__link" routerLink="/salidas" routerLinkActive="sidebar__link--active">
+                    <span class="material-symbols-outlined">shopping_cart</span>
+                    <span class="text">Salidas</span>
+                </a>
+                }
+                @if (currentUser()?.rol === 'ADMIN') {
+                <a class="sidebar__link" routerLink="/historial" routerLinkActive="sidebar__link--active">
+                    <span class="material-symbols-outlined">analytics</span>
+                    <span class="text">Historial</span>
+                </a>
+                }
+            </nav>
+        </div>
+        <div class="sidebar__userinfo">
+            @if (currentUser(); as user) {
+            <div class="user-profile-preview">
+                <div class="user-avatar" [class.admin]="user.rol === 'ADMIN'"
+                    [class.almacenista]="user.rol !== 'ADMIN'">
+                    <span class="material-symbols-outlined">
+                        @if (user.rol === 'ADMIN') {
+                        shield_person
+                        } @else {
+                        conveyor_belt
+                        }
+                    </span>
+                </div>
+                <div class="user-info">
+                    <h2 class="user-name">{{ user.nombreUsuario }}</h2>
+                    <button class="logout-button" (click)="logout()">
+                        <span class="material-symbols-outlined">logout</span>
+                        <span>Salir</span>
+                    </button>
+                </div>
+            </div>
+            }
+        </div>
+    </div>
+</aside>

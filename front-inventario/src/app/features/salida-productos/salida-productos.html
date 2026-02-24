@@ -1,0 +1,155 @@
+<main class="outflow-container">
+    <!-- Panel Izquierdo: Lista de Productos -->
+    <section class="product-panel">
+        <!-- Sección de Encabezado -->
+        <div class="header-section">
+            <h1>Salida de Inventario</h1>
+            <p>Selecciona los artículos para agregar a la orden de salida actual.</p>
+        </div>
+
+        <!-- Filtros & Búsqueda -->
+        <div class="filters-section">
+            <div class="search-box">
+                <span class="material-symbols-outlined search-icon">search</span>
+                <input type="text" placeholder="Buscar maquinaria, herramientas, ID..." />
+            </div>
+        </div>
+
+        <!-- Cuadrícula de Productos -->
+        <div class="product-grid">
+            @for (item of inventoryItems(); track item.id) {
+            <!-- Tarjeta de Producto -->
+            <div class="product-card">
+                <div class="product-image-container">
+                    <div class="image-bg" [attr.aria-label]="item.nombre"
+                        [style.background-image]="item.imagenUrl ? 'url(' + item.imagenUrl + ')' : 'url(inventory.png)'">
+                    </div>
+
+                    @if (item.stock > 10) {
+                    <div class="stock-badge in-stock">En Stock: {{ item.stock }}</div>
+                    } @else if (item.stock > 0) {
+                    <div class="stock-badge low-stock">En Stock: {{ item.stock }}</div>
+                    } @else {
+                    <div class="stock-badge out-stock" style="background-color: var(--red-500); color: white;">Agotado
+                    </div>
+                    }
+                </div>
+                <div class="product-info">
+                    <div>
+                        <h3>{{ item.nombre }}</h3>
+                        <p>{{ item.sku }}</p>
+                    </div>
+                    <button class="add-btn" [disabled]="item.stock === 0"
+                        [style.opacity]="item.stock === 0 ? '0.5' : '1'" (click)="addToOrder(item)">
+                        <span class="material-symbols-outlined">add</span>
+                    </button>
+                </div>
+            </div>
+            } @empty {
+            <div class="empty-state"
+                style="grid-column: 1 / -1; text-align: center; padding: 2rem; color: var(--text-sec-light);">
+                <span class="material-symbols-outlined" style="font-size: 3rem; margin-bottom: 1rem;">inventory_2</span>
+                <h3>No hay productos disponibles</h3>
+                <p>Actualmente no hay artículos habilitados en inventario para salida.</p>
+            </div>
+            }
+        </div>
+    </section>
+
+    <!-- Panel Derecho: Resumen de Orden Actual -->
+    <aside class="order-panel">
+        <div class="order-header">
+            <div>
+                <h2>Orden Actual</h2>
+                <p>Nueva Salida</p>
+            </div>
+            <div class="status-badge">Borrador</div>
+        </div>
+
+        <!-- Elementos Desplazables de la Orden -->
+        <div class="order-items">
+            @for (orderItem of orderItems(); track orderItem.id) {
+            <div class="order-item">
+                <div class="item-main">
+                    <div class="item-image" [attr.aria-label]="'Miniatura de ' + orderItem.producto.nombre"
+                        [style.background-image]="orderItem.producto.imagenUrl ? 'url(' + orderItem.producto.imagenUrl + ')' : 'url(inventory.png)'">
+                    </div>
+                    <div class="item-details">
+                        <div class="item-title-row">
+                            <h4>{{ orderItem.producto.nombre }}</h4>
+                            <button class="delete-btn" (click)="removeFromOrder(orderItem)">
+                                <span class="material-symbols-outlined">delete</span>
+                            </button>
+                        </div>
+                        <p class="unit">SKU: {{ orderItem.producto.sku }}</p>
+                        <div class="item-actions">
+                            <div class="quantity-control">
+                                <button (click)="updateQuantity(orderItem, -1)" [disabled]="orderItem.cantidad <= 1">
+                                    <span class="material-symbols-outlined">remove</span>
+                                </button>
+                                <span class="quantity">{{ orderItem.cantidad }}</span>
+                                <button (click)="updateQuantity(orderItem, 1)"
+                                    [disabled]="orderItem.cantidad >= orderItem.producto.stock">
+                                    <span class="material-symbols-outlined">add</span>
+                                </button>
+                            </div>
+                            <span class="price">${{ (orderItem.producto.precioUnitario * orderItem.cantidad) |
+                                number:'1.2-2' }}</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Campos de Configuración -->
+                <div class="item-config">
+                    <label>
+                        <span class="label-text">Razón de Salida</span>
+                        <select class="form-select" [value]="orderItem.razon"
+                            (change)="updateItemConfig(orderItem, 'razon', $any($event.target).value)">
+                            <option value="Renta">Renta</option>
+                            <option value="Venta">Venta</option>
+                            <option value="Mantenimiento">Mantenimiento</option>
+                            <option value="Descarte">Descarte</option>
+                            <option value="Uso Interno">Uso Interno</option>
+                        </select>
+                    </label>
+                    <label>
+                        <span class="label-text">Destino</span>
+                        <input class="form-input" type="text" [value]="orderItem.destino"
+                            placeholder="Ej. Proyecto Alpha"
+                            (input)="updateItemConfig(orderItem, 'destino', $any($event.target).value)" />
+                    </label>
+                </div>
+            </div>
+            } @empty {
+            <div class="empty-cart" style="text-align: center; padding: 2rem; color: var(--text-sec-light);">
+                <span class="material-symbols-outlined"
+                    style="font-size: 2.5rem; margin-bottom: 0.5rem; opacity: 0.5;">shopping_cart</span>
+                <p style="font-size: 0.875rem;">Añade productos para crear una orden de salida.</p>
+            </div>
+            }
+        </div>
+
+        <!-- Acciones Inferiores -->
+        <div class="order-footer">
+            <div class="summary-row">
+                <span class="summary-label">Cantidad de artículos</span>
+                <span class="summary-value">{{ totalOrderItems() }} Artículos</span>
+            </div>
+            <div class="summary-row total-row">
+                <span class="summary-label">Valor Total</span>
+                <span class="summary-value">${{ totalOrderValue() | number:'1.2-2' }}</span>
+            </div>
+            <div class="action-buttons">
+                <button class="btn-secondary" [disabled]="orderItems().length === 0"
+                    [style.opacity]="orderItems().length === 0 ? '0.5' : '1'" (click)="clearOrder()">
+                    Limpiar Orden
+                </button>
+                <button class="btn-primary" [disabled]="orderItems().length === 0"
+                    [style.opacity]="orderItems().length === 0 ? '0.5' : '1'" (click)="processOrder()">
+                    <span>Confirmar Salida</span>
+                    <span class="material-symbols-outlined">arrow_forward</span>
+                </button>
+            </div>
+        </div>
+    </aside>
+</main>

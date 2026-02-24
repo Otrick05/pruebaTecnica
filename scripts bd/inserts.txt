@@ -1,0 +1,27 @@
+INSERT INTO rol (id, nombre) VALUES 
+(1, 'ADMIN'),
+(2, 'ALMACENISTA');
+
+
+INSERT INTO permiso (id, nombre) VALUES 
+(1, 'LEER_INVENTARIO'),
+(2, 'AGREGAR_PRODUCTO'),
+(3, 'AUMENTAR_STOCK_PRODUCTO'),
+(4, 'CAMBIAR_ESTADO_ARTICULO'),
+(5, 'DECREMENTAR_STOCK_PROD'),
+(6, 'LEER_HISTORIAL_PRODUCTOS'),
+(7, 'LEER_VENTAS_PROD');
+
+-- Relación Rol - Permisos
+INSERT INTO rol_permisos (permiso_id, rol_id) VALUES 
+(1, 1), (2, 1), (3, 1), (4, 1), (6, 1), -- Permisos de ADMIN
+(1, 2), (5, 2), (7, 2);                 -- Permisos de ALMACENISTA
+
+
+INSERT INTO usuario (id, correo, nombre_usuario, password, rol_id, created_at, updated_at, last_login) VALUES 
+(1, 'rdo@gmail.com', 'Rodrigo Torres', '$2a$10$X/t3lTLu2VN2sCLrtavkn.slAWFToyXr/jbwm3u5EOOjVK78rNh3y', 1, '2026-02-22 21:08:56.668382', '2026-02-22 21:08:56.668382', '2026-02-22 21:08:56.668382'),
+(2, 'rdo6686957@gmail.com', 'Jose Infante', '$2a$10$0g5jaj1Ue8Gwrjt2dnrZX.1rm14Ewe1YdY6mjiisnIaKnpaRfxtEK', 2, '2026-02-24 05:58:11.077426', '2026-02-24 05:58:11.077426', '2026-02-24 05:58:11.077426');
+
+
+INSERT INTO producto (id, categoria, nombre, precio, stock, descripcion, habilitado) VALUES 
+(1, 'Otros', 'Tarima', 30.0, 0, 'tarimas de estibado', 1);

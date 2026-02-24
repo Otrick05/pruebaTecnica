@@ -1,0 +1,85 @@
+<div class="page-content">
+    <!-- Page Title & Actions -->
+    <div class="page-header">
+        <div class="page-header__title">
+            <h1>Historial de Inventario</h1>
+            <p>Registro de entradas y salidas de productos</p>
+        </div>
+        <div class="page-header__actions">
+
+            <div class="filter-group">
+                <app-listdropfiltro-historial (filterChange)="onFilterChange($event)"></app-listdropfiltro-historial>
+            </div>
+        </div>
+    </div>
+
+    <!-- Table Container -->
+    <div class="table-container">
+        <div class="table-wrapper">
+            <table class="inventory-table">
+                <thead>
+                    <tr>
+                        <th>ID Prod.</th>
+                        <th>Nombre Producto</th>
+                        <th>Motivo / Razón</th>
+                        <th>Destino</th>
+                        <th>Movimiento</th>
+                        <th>Fecha</th>
+                        <th>Realizado por</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @for (item of historialItems(); track item.id || $index) {
+                    <tr>
+                        <td class="sku">{{ item.productoId }}</td>
+                        <td>
+                            <div class="product">
+                                <div class="product-info">
+                                    <div class="name">{{ item.nombreProducto || 'Baja / No disponible' }}</div>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="reason">{{ item.motivo || 'N/A' }}</td>
+                        <td class="destination">{{ item.destino || 'N/A' }}</td>
+                        <td>
+                            <span class="status"
+                                [class]="item.tipoMovimiento === 'ENTRADA' ? 'status--entrada' : 'status--salida'">
+                                {{ item.tipoMovimiento === 'ENTRADA' ? 'Entrada' : 'Salida' }}
+                            </span>
+                        </td>
+                        <td class="date">
+                            {{ item.fecha | date:'short' }}
+                        </td>
+                        <td>
+                            {{ item.realizadoPor || 'N/A' }}
+                        </td>
+                    </tr>
+                    }
+                    @empty {
+                    <tr>
+                        <td colspan="7" style="text-align: center; padding: 3rem; color: #64748b;">
+                            <span class="material-symbols-outlined"
+                                style="font-size: 2.5rem; display:block; margin-bottom: 0.5rem; opacity:0.5;">history</span>
+                            No hay historial registrado.
+                        </td>
+                    </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        <div class="pagination">
+            <div class="pagination__info">
+                Mostrando <span>{{ historialItems().length > 0 ? (currentPage() * 20) + 1 : 0 }}-{{ (currentPage() * 20)
+                    + historialItems().length }}</span> de <span>{{ totalElements() }}</span> registros
+            </div>
+            <div class="pagination__controls">
+                <button [disabled]="currentPage() === 0" (click)="previousPage()">
+                    <span class="material-symbols-outlined">chevron_left</span>
+                </button>
+                <button [disabled]="currentPage() >= totalPages() - 1 || totalPages() === 0" (click)="nextPage()">
+                    <span class="material-symbols-outlined">chevron_right</span>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

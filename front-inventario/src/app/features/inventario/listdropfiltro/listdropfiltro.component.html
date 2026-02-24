@@ -1,0 +1,23 @@
+<div class="dropdown-wrapper">
+    <button class="dropdown-toggle" (click)="toggleDropdown()">
+        <span class="material-symbols-outlined">filter_list</span>
+        <span>
+            @switch (selectedOption()) {
+            @case ('todos') { Todos }
+            @case ('habilitados') { Habilitados }
+            @case ('deshabilitados') { Deshabilitados }
+            }
+        </span>
+        <span class="material-symbols-outlined icon-arrow" [class.open]="isOpen()">arrow_drop_down</span>
+    </button>
+
+    @if (isOpen()) {
+    <div class="dropdown-overlay" (click)="isOpen.set(false)"></div>
+    <ul class="dropdown-menu">
+        <li (click)="selectOption('todos')" [class.active]="selectedOption() === 'todos'">Todos</li>
+        <li (click)="selectOption('habilitados')" [class.active]="selectedOption() === 'habilitados'">Habilitados</li>
+        <li (click)="selectOption('deshabilitados')" [class.active]="selectedOption() === 'deshabilitados'">
+            Deshabilitados</li>
+    </ul>
+    }
+</div>

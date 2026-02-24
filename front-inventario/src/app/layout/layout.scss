@@ -1,0 +1,28 @@
+.layout-container {
+    display: flex;
+    height: 100vh;
+    width: 100%;
+    flex-direction: row;
+    overflow: hidden;
+    background-color: var(--background-light, #f6f7f8);
+    color: var(--text-color, #0f172a);
+    font-family: 'Inter', sans-serif;
+    transition: background-color 0.2s, color 0.2s;
+
+    :host-context(.dark) & {
+        background-color: var(--background-dark, #101922);
+        color: var(--text-light, #f1f5f9);
+    }
+}
+
+.main-content {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    overflow-y: auto;
+    background-color: #f6f7f8;
+
+    :host-context(.dark) & {
+        background-color: #101922;
+    }
+}

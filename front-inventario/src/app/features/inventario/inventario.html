@@ -1,0 +1,106 @@
+<div class="page-content">
+    <!-- Page Title & Actions -->
+    <div class="page-header">
+        <div class="page-header__title">
+            <h1>Productos En Inventario</h1>
+            <p>Stock de productos</p>
+        </div>
+        <div class="page-header__actions">
+
+            <div class="filter-group">
+                <app-listdropfiltro (filterChange)="onFilterChange($event)"></app-listdropfiltro>
+                <div class="divider"></div>
+            </div>
+            <button class="btn-primary" (click)="openModal()" [disabled]="!isAdmin()"
+                [style.opacity]="!isAdmin() ? '0.5' : '1'"
+                [title]="!isAdmin() ? 'Solo los administradores pueden realizar esta acción' : 'Agregar producto'">
+                <span class="material-symbols-outlined">add</span>
+                Agregar Producto
+            </button>
+        </div>
+    </div>
+
+
+    <!-- Table Container -->
+    <div class="table-container">
+        <div class="table-wrapper">
+            <table class="inventory-table">
+                <thead>
+                    <tr>
+
+                        <th>SKU</th>
+                        <th>Nombre Producto</th>
+                        <th>Categoría</th>
+                        <th>Stock</th>
+                        <th>Precio Unitario</th>
+                        <th>Estado</th>
+                        <th class="actions">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @for (item of inventoryItems(); track item.id) {
+                    <tr>
+
+                        <td class="sku">{{ item.sku }}</td>
+                        <td>
+                            <div class="product">
+                                <div class="product-img">
+                                    <img [src]="item.imagenUrl || 'https://www.flaticon.com/download/icon/12141373?icon_id=12141373&author=4095&team=4095&keyword=Inventory&pack=packs%2Fwarehouse-52&style=1374&format=png&color=&colored=2&size=512&selection=1&premium=0&type=standard&token=0cAFcWeA5jF8WD4iW2mU0UGHQsCdo-j1S-KDoUglpEa2S1ywv0sgqQy7pdWhZ559LhqIbFBFuM9Ax3_jgSYYGQi5oqcMl1pcdUvMUDtVpuEeKgPaTzlgQpugzQE5Ln2u2tSyhf_p_8juOPoUDIBezvV8xY72KGqN9ybAEXaNpx_khYbFO3R8HaTWXsQ9N1Q3LH2xofJ6LDfAOd6cw2sg6yDTvMECHGVLLHGjUSlDb5rR4Mz2JT212-r60MjBp7b5fcKpX-5CRqXGTTvnYYiW4IvJL1d_2onQZt0tdw7kaEVLnzDCE3l0vtjORGG0n3X6XnCSqhFKQlLeuOGt9IkfkCkqlZnCTkJ1cE4KFUcnDO5KT7sOhdkdZSs6XD0oppmxkUYynXfbdCXi-csfSiJqi9a2c55C5xVUI3q7VJF7pbVAOZTDjmjcCT9uA0j5wH34-2cKL-a83BeCIJQWALYmzRbmEM1suCcR4WaXfQ6nMcM6kBjl6i-sHmBXmMrIyEhMufxWuV8UoRWz6TNQQhRi-gRidTBOCqyI3L_HtxycvvlgUaF17GAsJhTgkbRL-_hQjA7cQMyGgS9_4CdG4JvvAuX3etlm42eg_pEbKpyeHq5s78KzWB4-myN_9JXYprwoycAMYPq5Y_vu0sPb9CYkB-XbPagJTr78a84ceP_1MqRuAG10ZjeqNUfvNpJOBk0g1c-gunmPWKjAA1m5NkHyK1unhjDWUhLC4jfjw14mZObKGIZMucECQJ9l-qHiVSIf4VvtealOD03EDmqK_IPFwqzbSW6LGgpaZrzF3KbaYAD3sGhhkblKYUvVTQOrAjF9Ul-QSAvnTmrTMfoMAwJx1Mp3NBPQdHirZIU_oQ9u09jF45vHeBK0ffN7h6XGwrOr1oyWZC48YW1W5iJCk8fd3xFWTtCGI3XEmM7PEy_dV979_Iiiuseo19DxqoIU46C38P8oKWs33zASfqGBKTbIBczNjtj17VGWHS1IBUoGbaVV55oZCU8lmrWfpCNm1s8e9PqGTeosFyE4nPbuoHXFRE5VmSUhWbMLuPIb0LB_M7iPg7FSBPw2wLHH8e_Bwfzy9NRs3lA0G4PR0roNsTU7Xl3KRb47Qe6EwM1jap5McK8MkuqrtT8dKIhqXJa4JSSlZKMFuxuzQbJY3EvV7FP8IitpcWvdZp_VC7CW3Apx8o4QBfzkWRAF69GVSeATKKyVvT7i9U9_bgGs-Wr8r9jPhvET1MgorOzFre2s9sw1RUBEIDKodZ59D1v6NVCxNHLoICyDakWzZQoJ7t3DlSQ8UxgwkzanDacXoD0ZpAHBgHcdUz4HD8MTJuoDRTicQ4qHIDiBrwGbIktIz743plqxcY7jGq0uUDZ5_NXHxmqi3aKEeKwaQq0uYIxpd8XJgSlqO5-w9jB1nkZZyL2wiVp5W9VrFfkbHK3L-6PboGGO80omxM42SeFDIdGbATlpxvlkGBGal7XYG-MyHnglkw48lWOsvNtOgzINrD5tmnh7iN4MLemcRwCazmVIxjV3c_GL0MCHBjpsqrDWbRtgzEq6pwQ3q1K4juNX5F9Wvg-_1jdB95_ZTqgZpq9ygm3Y-eARGQcEYpfDE-ROhIi27iacpSD8nkMOY8mGvJBHzkfvCpny2zgrG6CqLytZjmPRNKW0J5AJCGbkfp2Xdl7ugkc1UEK3_pvGxLvNlHE_eGo4Ld8x0N5xdWRyjTrN2ie6esEUtDxw17Rv9nBWT-HzjgUPvVqdkHJj6aZQbpeaDfGHw0OjBrdKzjT9Vs_uHWAPYMRKcRAYGt5dtUkGmUVzB1Q3smwMUZ9yKiXvSNpodc41rEwbbi5XhNr5psdhjfCvzZnyER_Hl2LOYNlrpn0-qjOKJOjqyMjHcAVarVa07yJgx2z1O_30xhc2tEF-p_HF140_HvIjFY1pxkObY7ODDKc4nQkW2DgRbBILEWaEMsCd9ynFgCIvn4yxEbzR-F12JXtsN0vM5GZpCl9t62lpTgtQLZZtJewmSHKOFsT15tT8AFIZGMFzhRuAc0aFdLl7ruqeQjbJuFKyQnfuCPcc7twH0Bxj8gi_k737U0vbpek0moqAbud1hbTWzol52pvRm5ewTX9HRvlyOCD8YVBEuaQsZayv_QEPAyp5oOt3WivMmcc5_CRXv0mVzEtIfqoIDzVHerP89N-3EpIQCkebtDIrngiNy5Ejo3yW4YtTsJ7pbu09Zb--OEQaQiXyKpxV6OuYIqDpY9IO-ijYVXxToKn9kGRi8359npRMXa-LytdhXvKuSOuU0BLkqNGqSCw5uJtjJkxSTZM-ZeM3nd&search=product+item'"
+                                        [alt]="item.nombre" />
+                                </div>
+                                <div class="product-info">
+                                    <div class="name">{{ item.nombre }}</div>
+                                    <div class="supplier">Supplier: {{ item.proveedor || 'N/A' }}</div>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="category">{{ item.categoria }}</td>
+                        <td class="stock">{{ item.stock }}</td>
+                        <td class="price">${{ item.precioUnitario | number:'1.2-2' }}</td>
+                        <td>
+                            <span class="status" [class]="item.estado ? 'status--instock' : 'status--outofstock'">
+                                {{ item.estado ? 'Habilitado' : 'Deshabilitado' }}
+                            </span>
+                        </td>
+                        <td class="actions">
+                            <app-listdrop-action [item]="item" (actionClick)="handleItemAction($event, item)">
+                            </app-listdrop-action>
+                        </td>
+                    </tr>
+                    }
+                    @empty {
+                    <tr>
+                        <td colspan="8" style="text-align: center; padding: 2rem;">
+                            No hay productos en el inventario.
+                        </td>
+                    </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        <div class="pagination">
+            <div class="pagination__info">
+                Mostrando <span>{{ inventoryItems().length > 0 ? (currentPage() * 20) + 1 : 0 }}-{{ (currentPage() * 20)
+                    + inventoryItems().length }}</span> de <span>{{ totalElements() }}</span> registros
+            </div>
+            <div class="pagination__controls">
+                <button [disabled]="currentPage() === 0" (click)="previousPage()">
+                    <span class="material-symbols-outlined">chevron_left</span>
+                </button>
+                <button [disabled]="currentPage() >= totalPages() - 1 || totalPages() === 0" (click)="nextPage()">
+                    <span class="material-symbols-outlined">chevron_right</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    @if (isModalOpen()) {
+    <app-modal-add-prod (close)="closeModal()" (productAdded)="onProductAdded()"></app-modal-add-prod>
+    }
+
+    @if (isStockModalOpen() && selectedItem()) {
+    <app-modal-aumentar-stock [item]="selectedItem()!" (close)="closeStockModal()"
+        (stockAumentado)="onStockAumentado()">
+    </app-modal-aumentar-stock>
+    }
+</div>
