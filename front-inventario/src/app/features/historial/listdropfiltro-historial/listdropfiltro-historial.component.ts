@@ -1,7 +1,7 @@
 import { Component, Output, EventEmitter, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-export type HistorialFilterOption = 'todos' | 'entradas' | 'salidas';
+export type HistorialFilterOption = 'todos' | 'entrada' | 'salida';
 
 @Component({
     selector: 'app-listdropfiltro-historial',

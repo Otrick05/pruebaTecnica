@@ -87,9 +87,15 @@ public class ProductoService {
         return new ProductoResponseDTO().fromEntity(savedProducto);
     }
 
+    @Transactional
     public ProductoResponseDTO updateEstadoProducto(Long id, boolean estado) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'updateEstadoProducto'");
+        Producto producto = productoRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Producto no encontrado con ID: " + id));
+
+        producto.setHabilitado(estado);
+        Producto savedProducto = productoRepository.save(producto);
+
+        return new ProductoResponseDTO().fromEntity(savedProducto);
     }
 
     private void registrarHistorial(Producto producto, HistorialProductos.Tipo tipo, String motivo, String destino) {

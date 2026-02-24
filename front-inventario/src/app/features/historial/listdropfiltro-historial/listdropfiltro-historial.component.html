@@ -4,8 +4,8 @@
         <span>
             @switch (selectedOption()) {
             @case ('todos') { Todos }
-            @case ('entradas') { Entradas }
-            @case ('salidas') { Salidas }
+            @case ('entrada') { Entradas }
+            @case ('salida') { Salidas }
             }
         </span>
         <span class="material-symbols-outlined icon-arrow" [class.open]="isOpen()">arrow_drop_down</span>
@@ -15,8 +15,8 @@
     <div class="dropdown-overlay" (click)="isOpen.set(false)"></div>
     <ul class="dropdown-menu">
         <li (click)="selectOption('todos')" [class.active]="selectedOption() === 'todos'">Todos</li>
-        <li (click)="selectOption('entradas')" [class.active]="selectedOption() === 'entradas'">Entradas</li>
-        <li (click)="selectOption('salidas')" [class.active]="selectedOption() === 'salidas'">Salidas</li>
+        <li (click)="selectOption('entrada')" [class.active]="selectedOption() === 'entrada'">Entradas</li>
+        <li (click)="selectOption('salida')" [class.active]="selectedOption() === 'salida'">Salidas</li>
     </ul>
     }
 </div>

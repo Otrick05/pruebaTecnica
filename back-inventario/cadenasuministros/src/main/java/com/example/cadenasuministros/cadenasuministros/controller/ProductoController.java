@@ -61,11 +61,11 @@ public class ProductoController {
     @PatchMapping("/actualizarEstado/{id}")
     public ResponseEntity<ProductoResponseDTO> updateEstadoProducto(@PathVariable Long id,
             @RequestBody boolean estado) {
-
-        return null;
+        ProductoResponseDTO productoResponseDTO = productoService.updateEstadoProducto(id, estado);
+        return ResponseEntity.ok(productoResponseDTO);
     }
 
-    @PreAuthorize("hasAuthority('DECREMENTAR_STOCK_PROD')")
+    @PreAuthorize("hasAuthority('DECREMENTAR_STOCK_PRODUCTO')")
     @PatchMapping("/salidaProducto/{id}")
     public ResponseEntity<ProductoResponseDTO> salidaProducto(@PathVariable Long id,
             @RequestBody CambioStockRequestDTO cambioStock) {
