@@ -35,7 +35,7 @@ Antes de arrancar el backend, necesitas tener la base de datos lista para recibi
 
 3. Si tu usuario de MySQL tiene una contraseña distinta a `Contrasena`, debes modificar el archivo `application.properties` en el backend (`back-inventario/cadenasuministros/src/main/resources/application.properties`) y cambiar la regla:
    ```properties
-   spring.datasource.password=TuContrasenaAqui
+   spring.datasource.password=Contrasena
    ```
 
 ### 3. Levantar el Backend (Spring Boot)
